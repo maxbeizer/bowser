@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Bowser Device Light</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type="text/css" media="all">
+      body {
+        height: 100%;
+        transition: all 1s linear;
+      }
+
+      body.dark > .easter-egg {
+        background: url(bowser.png) no-repeat center;
+      }
+
+      body.dark {
+        background-color: #222;
+        color: #ddd;
+      }
+
+      div.easter-egg {
+        height: 400px;
+      }
+
+
+    </style>
+  </head>
+
+  <body>
+    <h1>Device Light API</h1>
+    <p>Changes in the lux value can trigger events in JS.</p>
+    <p>Threshold: <input type="number" class="trigger-threshold" value="50"></p>
+    <p>Last lighting event: <span class="trigger-lux"></span><p>
+
+    <h3>Known Compatibilities</h3>
+    <ul>
+      <li>Firefox only</li>
+    </ul>
+
+    <div class="easter-egg"></div>
+
+    <script>
+      (function() {
+        var threshold = document.querySelector(".trigger-threshold");
+        var status = document.querySelector(".trigger-lux");
+
+        window.addEventListener("devicelight", function (evt) {
+          var lux = evt.value;
+          status.textContent = lux + " lux";
+          document.body.className = lux <= parseInt(threshold.value, 10) ? "dark" : "light";
+        });
+      })();
+    </script>
+  </body>
+</html>
