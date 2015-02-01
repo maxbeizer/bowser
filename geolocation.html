@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Bowser Geolocation</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+  </head>
+
+  <body>
+    <h1>Geolocation API</h1>
+
+    <button type="button" class="trigger-locate">Geolocate Me</button>
+
+    <p class="js-long"></p>
+    <p class="js-lat"></p>
+    <p class="js-err"></p>
+
+
+    <h3>Known Compatibilities</h3>
+    <p><a href="http://caniuse.com/#search=geolocation">source</a></p>
+    <ul>
+      <li>Firefox</li>
+      <li>Chrome</li>
+      <li>Safari</li>
+      <li>Opera</li>
+      <li>IE</li>
+      <li>Android Browser</li>
+      <li>Chrome for Android</li>
+    </ul>
+
+    <script>
+      (function() {
+        var outputLong  = document.querySelector('.js-long');
+        var outputLat   = document.querySelector('.js-lat');
+        var outputError = document.querySelector('.js-err');
+
+        var showLocation = function(position) {
+          outputLong.textContent = 'Longitude: ' + position.coords.longitude;
+          outputLat.textContent  = 'Latitude: ' + position.coords.latitude;
+        };
+
+        var showError = function(err) {
+          outputError.textContent = (function () {
+            switch (err.code) {
+              case err.PERMISSION_DENIED:
+                return "You denied the request for your location.";
+              case err.POSITION_UNAVAILABLE:
+                return "Your device cannot locate you right now.";
+              case err.TIMEOUT:
+                return "Your device couldn’t locate you in a timely fashion.";
+              default:
+                return "Your device is being weird.";
+            }
+          })();
+        };
+
+        document.querySelector('.trigger-locate').addEventListener('click', function() {
+          navigator.geolocation.getCurrentPosition(showLocation, showError);
+        });
+      })();
+    </script>
+  </body>
+</html>
